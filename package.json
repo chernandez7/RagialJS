@@ -1,0 +1,25 @@
+{
+  "name": "ragialjs",
+  "version": "1.0.0",
+  "description": "ragi.al JavaScript Parser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chernandez7/RagialJS.git"
+  },
+  "keywords": [
+    "ragial",
+    "ragnarok",
+    "online",
+    "iro"
+  ],
+  "author": "Christopher Hernandez <chris00hernandez@gmail.com> (http://chrishernandez.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chernandez7/RagialJS/issues"
+  },
+  "homepage": "https://github.com/chernandez7/RagialJS#readme"
+}
