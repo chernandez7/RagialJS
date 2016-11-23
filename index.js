@@ -12,10 +12,26 @@ app.get('/scrape', function(req, res){
         var $ = cheerio.load(html);
 
         // Initialize JSON object
-        var name, img_src;
+        var name, img_src, short, long, amount, min, max, average, deviation, confidence;
         var json = {
           name : "",
           img_src : "",
+          short : {
+            amount : "",
+            min : "",
+            max : "",
+            average : "",
+            deviation : "",
+            confidence : ""
+          },
+          long: {
+            amount : "",
+            min : "",
+            max : "",
+            average : "",
+            deviation : "",
+            confidence : ""
+          }
         };
 
         // Item Name
@@ -24,6 +40,13 @@ app.get('/scrape', function(req, res){
             name = trimString(data.children().first().text());
             console.log("title: " + name);
             json.name = name;
+
+            // Short (7 Days) Metrics
+            var avgtable = data.children().first().next();
+            var short = avgtable.children().children().last().prev().children().text();
+            var long = avgtable.children().children().last().children().text();
+            console.log(short);
+            console.log(long);
         })
 
         // Image url
