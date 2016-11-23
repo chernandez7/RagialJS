@@ -1,22 +1,72 @@
 var express = require('express');
 var request = require('request');
 var cheerio = require('cheerio');
-var app     = express();
+var RagialJS     = express();
 
-app.get('/scrape', function(req, res){
+RagialJS.get('/scrape', function(req, res){
 
-  url = 'http://ragi.al/item/iRO-Renewal/hzE'; // Test URL
+  console.log(getItemJSON("Minor Brisket", "Renewal"));
 
+}) // End RagialJS.get
+
+// Function to remove whitespace and escape code
+function trimString(str) {
+  return str.replace(/[\n\t\r]/g,"").trim();
+}
+
+// Returns url of item in Ragi.al
+function getItemURL(itemName, server) {
+  var prefix;
+
+    switch (server) {
+      case "Renewal":
+        prefix = "http://ragi.al/search/iRO-Renewal/";
+        break;
+      case "Classic":
+        prefix = "http://http://ragi.al/item/iRO-Classic/";
+        break;
+      case "Thor":
+        prefix = "http://http://ragi.al/shop/iRO-Thor/";
+        break;
+    }
+
+  // Account for percent encoding (%20)
+  var suffix = itemName.split(' ').join('%20');
+  var url = prefix.concat(suffix); // Merge prefix and suffix
+
+  // Parse for href in results
   request(url, function(error, response, html) {
-    if(!error) {
+    if(!error && response.statusCode == 200) {
+        var $ = cheerio.load(html);
+
+        // db class
+        $('.itemdb').filter(function() {
+          var data = $(this);
+
+          // Ragi.al Item
+          item_src = trimString(data.next().attr('href'));
+          return item_src;
+        })
+      } else {
+        console.log(error);
+        }
+  }) // End Request
+}
+
+// Returns buy, sell, and metrics of item as a JSON
+function getItemJSON(itemName, server) {
+  var url = getItemURL(itemName, server);
+  request(url, function(error, response, html) {
+    if(!error && response.statusCode == 200) {
         var $ = cheerio.load(html);
 
         // Initialize JSON object
-        var name, img_src, short, long, amount, min, max, average, deviation, confidence;
+        var name, img_src, item_src, short, long, amount, min, max, average, deviation, confidence;
 
-        var json = {
+        json = {
           name : "",
           img_src : "",
+          item_src : "",
           short : {
             amount : "",
             min : "",
@@ -39,7 +89,6 @@ app.get('/scrape', function(req, res){
         $('.mkt_left').filter(function() {
             var data = $(this);
             name = trimString(data.children().first().text());
-            console.log("title: " + name);
             json.name = name;
 
             // Metric Table
@@ -89,25 +138,26 @@ app.get('/scrape', function(req, res){
 
         })
 
-        // Image url
+        // db class
         $('.itemdb').filter(function() {
           var data = $(this);
-          img_src = trimString(data.children().first().attr('src'));
-          console.log("img_src: " + img_src);
+
+          // Image url
+          img_src = trimString(data.children().attr('src'));
           json.img_src = img_src;
+
+          // Item iroWiki url
+          item_src = trimString(data.attr('href'));
+          json.item_src = item_src;
         })
-
+    return json;
+  } else {
+    console.log(error);
     }
-
   }); // End request
-}) // End app.get
-
-// Function to remove whitespace and escape code
-function trimString(str) {
-  return str.replace(/[\n\t\r]/g,"").trim();
 }
 
 // listening
-app.listen('8081')
+RagialJS.listen('8081')
 
-exports = module.exports = app;
+exports = module.exports = RagialJS;
