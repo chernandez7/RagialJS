@@ -1,7 +1,7 @@
 # RagialJS #
 [![Build Status](https://travis-ci.org/chernandez7/RagialJS.svg?branch=master)](https://travis-ci.org/chernandez7/RagialJS)
 
-Future NPM module that will parse data from http://ragi.al.
+Future NPM module that will parse data from http://ragi.al, building upon on [this](https://github.com/chernandez7/WebScraper.git) idea.
 
 ## Current Functionality ##
 Following works for all 3 iRO servers (Renewal, Classic, Thor):
@@ -9,7 +9,7 @@ Following works for all 3 iRO servers (Renewal, Classic, Thor):
   `getItemURL("Minor Brisket", "Renewal")` should return `http://ragi.al/item/iRO-Renewal/jzA`
 
 - Get item metrics from name and server
-  `getItemJSON("Minor Brisket", "Renewal")` should return:
+  `getItemJSON("Minor Brisket", "Renewal")` should return
 
   ```
   {
@@ -34,7 +34,7 @@ Following works for all 3 iRO servers (Renewal, Classic, Thor):
     }
   }
   ```
-  
+
   as shown [here](http://ragi.al/item/iRO-Renewal/jzA).
 
 ## TODO ##
