@@ -23,10 +23,10 @@ function getItemURL(itemName, server) {
         prefix = "http://ragi.al/search/iRO-Renewal/";
         break;
       case "Classic":
-        prefix = "http://http://ragi.al/item/iRO-Classic/";
+        prefix = "http://ragi.al/item/iRO-Classic/";
         break;
       case "Thor":
-        prefix = "http://http://ragi.al/shop/iRO-Thor/";
+        prefix = "http://ragi.al/shop/iRO-Thor/";
         break;
     }
 
